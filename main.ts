@@ -9,6 +9,9 @@ const outDir =
   process.env.MAKEFUN_OUTPUT_DIR || process.env.OUTPUT_DIR || '/output';
 
 const bytes = fs.readFileSync(sourcePath);
+if (bytes.length === 0 || bytes[bytes.length - 1] !== 0x0a || bytes[bytes.length - 2] === 0x0a) {
+  throw new Error('CHOSEN.txt must end with exactly one newline');
+}
 const text = bytes.toString('utf8');
 const chars = text.endsWith('\n') ? text.slice(0, -1).length : text.length;
 
